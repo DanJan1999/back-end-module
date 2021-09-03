@@ -1,20 +1,79 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="index.css">
     <title>Back End Assessment</title>
   </head>
   <body class="container">
+    <h1>Welcome to encourageHub! Find your encouragement!</h1>
     <button id="complimentButton">Get a compliment</button>
+    <br>
+    <img src="https://image.flaticon.com/icons/png/128/678/678909.png" alt="fortuneCookie" id="ftnCookie">
+    <button id="fortuneButton">Get a fortune</button>
+    <br>
+    <form id="encouragementForm">
+      <h2>Need more specific encouragement?</h2>
+      <br>
+      <label for="encType"> Let us know what you need encouragement with!</label>
+      <br>
+      <br>
+      <input type="text" id="encouragementType" name="encType" placeholder="Type Here">
+      <input type="submit" id="encouragementSubmit" name="encSubmit">
+    </form>
+    <div id="catContainer">
+    <button id="displayCat">Click for inspiration</button>
+    </div>
+
+    <div id="secretMessage">
+    <button id="lifeSecret">Super secret formula to all the success and happiness in life <br> DO NOT PRESS THIS BUTTON</button>
+    <br>
+    </div>
+
+    <footer></footer>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script>
-      document.getElementById("complimentButton").onclick = function () {
-        axios.get("http://localhost:4000/api/compliment/")
-            .then(function (response) {
-              const data = response.data;
-              alert(data);
-            });
+    <script>document.getElementById("complimentButton").onclick = function () {
+      axios.get("http://localhost:4000/api/compliment/")
+          .then(function (response) {
+            const data = response.data;
+            alert(data);
+        });
       };
-    </script>
+        document.getElementById("fortuneButton").onclick = function () {
+    axios.get("http://localhost:4000/api/fortune/")
+        .then(function (response) {
+          const data = response.data;
+          alert(data);
+        });
+      };
+      document.getElementById("encouragementForm").onsubmit = function (event) {
+        event.preventDefault();
+    axios.get("http://localhost:4000/api/encouragement/")
+        .then(function (response) {
+          const data = response.data;
+          alert(data);
+        });
+      };
+      document.getElementById("displayCat").onclick = function () {
+    axios.get("http://localhost:4000/api/catInspiration/")
+        .then(function (response) {
+          const data = response.data;
+          if (data === true) {
+            let catPic = document.createElement(`img`);
+            catPic.src = `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkeJRw8l62WSJ-Gdu_Ls9hfmZeooPlWOyk5w&usqp=CAU`;
+            document.getElementById(`catContainer`).appendChild(catPic);
+          }
+        });
+      };
+      document.getElementById("lifeSecret").onclick = function () {
+    axios.get("http://localhost:4000/api/superSecret/")
+        .then(function (response) {
+          const data = response.data;
+          let bigMessage = document.createElement(`h1`)
+          bigMessage.textContent = data
+          document.getElementById(`secretMessage`).appendChild(bigMessage)
+        });
+      }
+      </script>
   </body>
 </html>
